@@ -1,0 +1,259 @@
+---
+interface Media {
+  type: 'image' | 'video';
+  url: string;
+  alt?: string;
+}
+
+interface Props {
+  mediaList: Media[];
+}
+
+const { mediaList } = Astro.props;
+---
+
+<div class="carousel-container" data-carousel>
+  <div class="carousel-track" data-track>
+    {mediaList.map((media, index) => (
+      <div class="carousel-slide" data-index={index}>
+        {media.type === 'image' ? (
+          <img src={media.url} alt={media.alt || `Media ${index + 1}`} loading={index === 0 ? "eager" : "lazy"} />
+        ) : (
+          <video src={media.url} autoplay muted playsinline></video>
+        )}
+      </div>
+    ))}
+  </div>
+  
+  {mediaList.length > 1 && (
+    <>
+      <button class="carousel-btn prev" data-prev aria-label="Previous image">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+      </button>
+      <button class="carousel-btn next" data-next aria-label="Next image">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+      </button>
+      
+      <div class="carousel-dots">
+        {mediaList.map((_, index) => (
+          <button class={`dot ${index === 0 ? 'active' : ''}`} data-dot={index} aria-label={`Go to slide ${index + 1}`}></button>
+        ))}
+      </div>
+    </>
+  )}
+</div>
+
+<style>
+  .carousel-container {
+    position: relative;
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+    border-radius: 12px;
+    overflow: hidden;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    aspect-ratio: 16/9;
+  }
+
+  .carousel-track {
+    display: flex;
+    height: 100%;
+    transition: transform 0.5s ease-in-out;
+  }
+
+  .carousel-slide {
+    min-width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .carousel-slide img,
+  .carousel-slide video {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  .carousel-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.5);
+    border: none;
+    color: white;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.3s;
+    z-index: 10;
+  }
+
+  .carousel-btn:hover {
+    background: var(--accent);
+  }
+
+  .prev { left: 10px; }
+  .next { right: 10px; }
+
+  .carousel-btn svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  .carousel-dots {
+    position: absolute;
+    bottom: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 8px;
+    z-index: 10;
+  }
+
+  .dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.4);
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    transition: background 0.3s, transform 0.3s;
+  }
+
+  .dot.active {
+    background: var(--accent);
+    transform: scale(1.2);
+  }
+</style>
+
+<script>
+  // Simple carousel script using Vanilla JS, supports View Transitions (Astro setup)
+  function initCarousels() {
+    const carousels = document.querySelectorAll('[data-carousel]');
+    
+    carousels.forEach(carousel => {
+      const track = carousel.querySelector('[data-track]') as HTMLElement;
+      const slides = carousel.querySelectorAll('.carousel-slide');
+      const prevBtn = carousel.querySelector('[data-prev]');
+      const nextBtn = carousel.querySelector('[data-next]');
+      const dots = carousel.querySelectorAll('[data-dot]');
+      
+      let currentIndex = 0;
+      let timerId: any;
+      
+      if (slides.length <= 1) return;
+      
+      function updateCarousel(index: number) {
+        currentIndex = index;
+        if (currentIndex < 0) currentIndex = slides.length - 1;
+        if (currentIndex >= slides.length) currentIndex = 0;
+        
+        track.style.transform = `translateX(-${currentIndex * 100}%)`;
+        
+        dots.forEach((dot, i) => {
+          if (i === currentIndex) {
+            dot.classList.add('active');
+          } else {
+            dot.classList.remove('active');
+          }
+        });
+        
+        manageMediaPlayback();
+      }
+      
+      function manageMediaPlayback() {
+        clearTimeout(timerId); // Clear any pending image timeout
+        
+        slides.forEach((slide, i) => {
+          const video = slide.querySelector('video');
+          if (video) {
+            if (i === currentIndex) {
+              video.muted = true;
+              video.defaultMuted = true;
+              video.playsInline = true;
+              video.currentTime = 0; // Reset video to start
+              
+              const playPromise = video.play();
+              if (playPromise !== undefined) {
+                playPromise.catch(e => console.warn("Video autoplay prevented:", e));
+              }
+              
+              // Wait for the video to end before going to next slide
+              video.onended = () => {
+                nextSlide();
+              };
+            } else {
+              video.pause();
+              video.onended = null; // Remove listener from inactive videos
+            }
+          } else if (i === currentIndex) {
+            // It's an image, auto advance after 5 seconds
+            timerId = setTimeout(nextSlide, 5000);
+          }
+        });
+      }
+      
+      function nextSlide() {
+        updateCarousel(currentIndex + 1);
+      }
+      
+      function prevSlide() {
+        updateCarousel(currentIndex - 1);
+      }
+      
+      if (nextBtn) {
+        nextBtn.addEventListener('click', nextSlide);
+      }
+      
+      if (prevBtn) {
+        prevBtn.addEventListener('click', prevSlide);
+      }
+      
+      dots.forEach((dot, i) => {
+        dot.addEventListener('click', () => {
+          updateCarousel(i);
+        });
+      });
+      
+      // Setup touch swipe
+      let touchStartX = 0;
+      let touchEndX = 0;
+      
+      carousel.addEventListener('touchstart', e => {
+        touchStartX = (e as TouchEvent).changedTouches[0].screenX;
+        clearTimeout(timerId); // Pause autoplay on touch
+      }, { passive: true });
+      
+      carousel.addEventListener('touchend', e => {
+        touchEndX = (e as TouchEvent).changedTouches[0].screenX;
+        handleSwipe();
+      }, { passive: true });
+      
+      function handleSwipe() {
+        if (touchEndX < touchStartX - 50) nextSlide();
+        else if (touchEndX > touchStartX + 50) prevSlide();
+        else manageMediaPlayback(); // resume autoplay if barely touched
+      }
+      
+      // Initialize videos to load properly during View Transitions
+      const videos = carousel.querySelectorAll('video');
+      videos.forEach(video => {
+        video.load(); // Force fetch
+      });
+      
+      // Start the carousel
+      manageMediaPlayback();
+    });
+  }
+
+  // Initialize on page load
+  document.addEventListener('astro:page-load', initCarousels);
+</script>

@@ -1,0 +1,220 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Carousel from '../../components/Carousel.astro';
+
+export async function getStaticPaths() {
+  const projects = await getCollection('projects');
+  return projects.map(project => ({
+    params: { slug: project.id },
+    props: { project },
+  }));
+}
+
+const { project } = Astro.props;
+const { Content } = await render(project);
+const { title, shortDescription, techStack, githubLink, liveLink, media, icon } = project.data;
+---
+
+<BaseLayout title={title}>
+  <article class="project-detail">
+    
+    <nav class="detail-nav">
+      <a href="/projects" class="back-link">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+        Back to Projects
+      </a>
+    </nav>
+
+    <header class="project-header">
+      <div class="title-container">
+        <h1 class="title">{title}</h1>
+      </div>
+      <p class="subtitle">{shortDescription}</p>
+      
+      <div class="tech-stack">
+        {techStack.map(tech => (
+          <span class="tech-badge">{tech}</span>
+        ))}
+      </div>
+    </header>
+
+    {media && media.length > 0 && (
+      <section class="media-section">
+        <Carousel mediaList={media} />
+      </section>
+    )}
+
+    <section class="content-section glass-panel">
+      <div class="markdown-body">
+        <Content />
+      </div>
+    </section>
+    
+  </article>
+</BaseLayout>
+
+<style>
+  .project-detail {
+    max-width: 900px;
+    margin: 0 auto;
+    padding-bottom: 4rem;
+  }
+
+  .detail-nav {
+    display: flex;
+    justify-content: flex-start;
+    margin-bottom: 2rem;
+  }
+
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    transition: color 0.3s;
+  }
+
+  .back-link:hover {
+    color: var(--accent);
+  }
+
+  .back-link svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .project-header {
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+
+  .title-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .title {
+    font-size: 3rem;
+    line-height: 1.1;
+  }
+
+  .subtitle {
+    font-size: 1.2rem;
+    color: var(--text-secondary);
+    margin-bottom: 2rem;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .tech-stack {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.8rem;
+    margin-bottom: 2rem;
+  }
+
+  .tech-badge {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--accent);
+    padding: 0.4rem 1rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text-main);
+  }
+
+  .links {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+  }
+
+  .action-btn {
+    padding: 0.8rem 1.5rem;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid var(--border);
+    font-weight: 500;
+    transition: all 0.3s;
+  }
+
+  .action-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+  }
+
+  .primary-btn {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: white;
+  }
+
+  .primary-btn:hover {
+    background: var(--accent-hover);
+    border-color: var(--accent-hover);
+  }
+
+  .media-section {
+    margin-bottom: 3rem;
+  }
+
+  .content-section {
+    padding: 3rem;
+  }
+
+  /* Basic Markdown Styling */
+  .markdown-body h2 {
+    font-size: 1.8rem;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    color: var(--accent);
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 0.5rem;
+  }
+  
+  .markdown-body h2:first-child {
+    margin-top: 0;
+  }
+
+  .markdown-body h3 {
+    font-size: 1.4rem;
+    margin-top: 1.5rem;
+    margin-bottom: 0.8rem;
+  }
+
+  .markdown-body p {
+    margin-bottom: 1.2rem;
+    color: var(--text-secondary);
+    line-height: 1.8;
+  }
+
+  .markdown-body ul, .markdown-body ol {
+    margin-bottom: 1.2rem;
+    padding-left: 1.5rem;
+    color: var(--text-secondary);
+  }
+
+  .markdown-body li {
+    margin-bottom: 0.5rem;
+  }
+
+  .markdown-body strong {
+    color: var(--text-main);
+  }
+
+  @media (max-width: 768px) {
+    .content-section {
+      padding: 1.5rem;
+    }
+    
+    .title {
+      font-size: 2.2rem;
+    }
+  }
+</style>

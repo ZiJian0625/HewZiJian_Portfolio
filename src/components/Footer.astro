@@ -1,0 +1,45 @@
+---
+const currentYear = new Date().getFullYear();
+---
+<footer class="footer">
+  <div class="container footer-container">
+    <p>&copy; {currentYear} Hew Zi Jian. All rights reserved.</p>
+    <div class="social-links">
+      <a href="https://github.com/ZiJian0625" target="_blank" rel="noopener noreferrer">GitHub</a>
+      <a href="https://www.linkedin.com/in/hewzijian/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    padding: 2rem 0;
+    margin-top: 4rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .footer-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+  }
+
+  .social-links {
+    display: flex;
+    gap: 1.5rem;
+  }
+  
+  .social-links a:hover {
+    color: var(--text-main);
+  }
+
+  @media (max-width: 600px) {
+    .footer-container {
+      flex-direction: column;
+      gap: 1rem;
+      text-align: center;
+    }
+  }
+</style>
