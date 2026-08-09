@@ -141,11 +141,37 @@ const { mediaList } = Astro.props;
     
     carousels.forEach(carousel => {
       const track = carousel.querySelector('[data-track]') as HTMLElement;
-      const slides = carousel.querySelectorAll('.carousel-slide');
+      let slides = Array.from(carousel.querySelectorAll('.carousel-slide'));
       const prevBtn = carousel.querySelector('[data-prev]');
       const nextBtn = carousel.querySelector('[data-next]');
-      const dots = carousel.querySelectorAll('[data-dot]');
+      let dots = Array.from(carousel.querySelectorAll('[data-dot]'));
       
+      // Check for iOS (including iPads that masquerade as Macs)
+      const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+      
+      if (isIOS) {
+        const slidesToRemove: number[] = [];
+        slides.forEach((slide, index) => {
+          if (slide.querySelector('video')) {
+            slide.remove(); // Remove video slide from DOM
+            if (dots[index]) dots[index].remove(); // Remove corresponding dot
+            slidesToRemove.push(index);
+          }
+        });
+        
+        // Filter out the removed slides and dots from our arrays
+        slides = slides.filter((_, i) => !slidesToRemove.includes(i));
+        dots = dots.filter((_, i) => !slidesToRemove.includes(i));
+        
+        // Hide controls if we only have 1 or 0 slides left after removing videos
+        if (slides.length <= 1) {
+           if (prevBtn) (prevBtn as HTMLElement).style.display = 'none';
+           if (nextBtn) (nextBtn as HTMLElement).style.display = 'none';
+           const dotsContainer = carousel.querySelector('.carousel-dots');
+           if (dotsContainer) (dotsContainer as HTMLElement).style.display = 'none';
+        }
+      }
+
       let currentIndex = 0;
       let timerId: any;
       
