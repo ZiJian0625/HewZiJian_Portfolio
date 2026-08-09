@@ -243,11 +243,7 @@ const { mediaList } = Astro.props;
         else manageMediaPlayback(); // resume autoplay if barely touched
       }
       
-      // Initialize videos to load properly during View Transitions
-      const videos = carousel.querySelectorAll('video');
-      videos.forEach(video => {
-        video.load(); // Force fetch
-      });
+
       
       // Start the carousel
       manageMediaPlayback();

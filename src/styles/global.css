@@ -21,7 +21,7 @@
   /* Glassmorphism Light */
   --glass-bg: rgba(255, 255, 255, 0.9);
   --glass-border: rgba(255, 255, 255, 1);
-  --glass-blur: blur(16px);
+  --glass-blur: blur(8px);
 
   --font-heading: 'Newsreader', serif;
   --font-body: 'Plus Jakarta Sans', sans-serif;
