@@ -19,7 +19,7 @@
   --border: rgba(0, 0, 0, 0.08);
 
   /* Glassmorphism Light */
-  --glass-bg: rgba(255, 255, 255, 0.7);
+  --glass-bg: rgba(255, 255, 255, 0.9);
   --glass-border: rgba(255, 255, 255, 1);
   --glass-blur: blur(16px);
 
@@ -47,7 +47,7 @@
   --border: rgba(255, 255, 255, 0.08);
 
   /* Glassmorphism Dark */
-  --glass-bg: rgba(26, 29, 36, 0.6);
+  --glass-bg: rgba(26, 29, 36, 0.9);
   --glass-border: rgba(255, 255, 255, 0.1);
 }
 
