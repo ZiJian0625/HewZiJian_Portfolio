@@ -1,25 +1,47 @@
 ---
-import ThemeToggle from './ThemeToggle.astro';
+import ThemeToggle from "./ThemeToggle.astro";
 
 const pathname = new URL(Astro.request.url).pathname;
 const currentPath = pathname.replace(/\/$/, ""); // remove trailing slash if any
 ---
+
 <div class="navbar-wrapper">
   <nav class="navbar glass-panel">
     <a href="/" class="logo">HJ<span>.</span></a>
-    
+
     <div class="nav-links" id="nav-links">
       <a href="/" class={currentPath === "" ? "active" : ""}>Home</a>
-      <a href="/about" class={currentPath === "/about" ? "active" : ""}>About</a>
-      <a href="/projects" class={currentPath.startsWith("/projects") ? "active" : ""}>Projects</a>
-      <a href="/skills" class={currentPath === "/skills" ? "active" : ""}>Skills</a>
-      <a href="/contact" class={currentPath === "/contact" ? "active" : ""}>Contact</a>
+      <a href="/about" class={currentPath === "/about" ? "active" : ""}>About</a
+      >
+      <a
+        href="/projects"
+        class={currentPath.startsWith("/projects") ? "active" : ""}>Projects</a
+      >
+      <a href="/skills" class={currentPath === "/skills" ? "active" : ""}
+        >Skills</a
+      >
+      <a href="/contact" class={currentPath === "/contact" ? "active" : ""}
+        >Contact</a
+      >
     </div>
 
     <div class="nav-actions">
       <ThemeToggle />
-      <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Toggle menu">
-        <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <button
+        class="mobile-menu-btn"
+        id="mobile-menu-btn"
+        aria-label="Toggle menu"
+      >
+        <svg
+          viewBox="0 0 24 24"
+          width="24"
+          height="24"
+          stroke="currentColor"
+          stroke-width="2"
+          fill="none"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
           <line x1="3" y1="12" x2="21" y2="12"></line>
           <line x1="3" y1="6" x2="21" y2="6"></line>
           <line x1="3" y1="18" x2="21" y2="18"></line>
@@ -77,7 +99,9 @@ const currentPath = pathname.replace(/\/$/, ""); // remove trailing slash if any
     font-weight: 500;
     padding: 0.5rem 1rem;
     border-radius: 20px;
-    transition: background 0.3s, color 0.3s;
+    transition:
+      background 0.3s,
+      color 0.3s;
     color: var(--text-secondary);
     text-align: center;
   }
@@ -148,7 +172,7 @@ const currentPath = pathname.replace(/\/$/, ""); // remove trailing slash if any
       transform: translateY(0);
       pointer-events: auto;
     }
-    
+
     .nav-links a {
       padding: 0.75rem 1rem;
     }
@@ -157,19 +181,22 @@ const currentPath = pathname.replace(/\/$/, ""); // remove trailing slash if any
 
 <script>
   function setupMobileMenu() {
-    const mobileBtn = document.getElementById('mobile-menu-btn');
-    const navLinks = document.getElementById('nav-links');
-    
+    const mobileBtn = document.getElementById("mobile-menu-btn");
+    const navLinks = document.getElementById("nav-links");
+
     if (mobileBtn && navLinks) {
-      mobileBtn.addEventListener('click', () => {
-        navLinks.classList.toggle('show');
+      // Clone the node to strip away any existing event listeners from previous page loads
+      const newBtn = mobileBtn.cloneNode(true);
+      if (mobileBtn.parentNode) {
+        mobileBtn.parentNode.replaceChild(newBtn, mobileBtn);
+      }
+
+      newBtn.addEventListener("click", () => {
+        navLinks.classList.toggle("show");
       });
     }
   }
-  
-  // Setup on initial load
-  setupMobileMenu();
-  
-  // Setup after view transitions
-  document.addEventListener('astro:page-load', setupMobileMenu);
+
+  // Setup after view transitions (and initial load)
+  document.addEventListener("astro:page-load", setupMobileMenu);
 </script>
