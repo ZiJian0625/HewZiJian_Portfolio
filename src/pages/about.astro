@@ -1,11 +1,13 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
+import BaseLayout from "../layouts/BaseLayout.astro";
 ---
 
 <BaseLayout title="About">
   <div class="about-header">
     <h1 class="page-title">About <span class="highlight">Me</span></h1>
-    <p class="page-subtitle">My academic journey and professional experiences.</p>
+    <p class="page-subtitle">
+      My academic journey and professional experiences.
+    </p>
   </div>
 
   <div class="about-grid">
@@ -16,7 +18,6 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         </button>
       </div>
       <div class="timeline" id="timeline-container">
-        
         <!-- Timeline Item 1 -->
         <div class="timeline-item glass-panel">
           <div class="timeline-dot"></div>
@@ -28,9 +29,10 @@ import BaseLayout from '../layouts/BaseLayout.astro';
             <h3>Software Programmer Executive (Internship)</h3>
             <h4>Ideo Soft Sdn Bhd</h4>
             <p>
-              Managed database migrations, network configurations, and software compliance within the 
-              AutoCount enterprise ecosystem. Optimized SQL Server databases for 20+ corporate clients, 
-              implemented LHDN MyTax e-invoicing integrations, and configured C# data outputs and 
+              Managed database migrations, network configurations, and software
+              compliance within the AutoCount enterprise ecosystem. Optimized
+              SQL Server databases for 20+ corporate clients, implemented LHDN
+              MyTax e-invoicing integrations, and configured C# data outputs and
               secure multi-node VPN networks.
             </p>
           </div>
@@ -45,11 +47,14 @@ import BaseLayout from '../layouts/BaseLayout.astro';
           </div>
           <div class="timeline-content">
             <h3>Bachelor of Software Engineering (Hons)</h3>
-            <h4>Tunku Abdul Rahman University of Management and Technology (TARUMT)</h4>
+            <h4>
+              Tunku Abdul Rahman University of Management and Technology
+              (TARUMT)
+            </h4>
             <div class="cgpa">CGPA: 3.81</div>
             <p>
-              Exploring software architecture, Python backends, and mobile engineering to build clean, 
-              scalable digital products.
+              Exploring software architecture, Python backends, and mobile
+              engineering to build clean, scalable digital products.
             </p>
           </div>
         </div>
@@ -65,9 +70,10 @@ import BaseLayout from '../layouts/BaseLayout.astro';
             <h3>Technical Assistant (Internship)</h3>
             <h4>Jurudata Services Sdn Bhd</h4>
             <p>
-              Managed and deployed in-house self check-in/out kiosk systems for 10+ hospitality clients. 
-              Executed pre-deployment software QA, configured PC hardware and network setups on-site, 
-              and verified integrations for peripheral devices such as passport scanners.
+              Managed and deployed in-house self check-in/out kiosk systems for
+              10+ hospitality clients. Executed pre-deployment software QA,
+              configured PC hardware and network setups on-site, and verified
+              integrations for peripheral devices such as passport scanners.
             </p>
           </div>
         </div>
@@ -81,50 +87,66 @@ import BaseLayout from '../layouts/BaseLayout.astro';
           </div>
           <div class="timeline-content">
             <h3>Diploma in Information Technology</h3>
-            <h4>Tunku Abdul Rahman University of Management and Technology (TARUMT)</h4>
+            <h4>
+              Tunku Abdul Rahman University of Management and Technology
+              (TARUMT)
+            </h4>
             <div class="cgpa">CGPA: 3.63</div>
             <p>
-              Built a solid foundation in IT and programming fundamentals, algorithms, and software design.
+              Built a solid foundation in IT and programming fundamentals,
+              algorithms, and software design.
             </p>
           </div>
         </div>
-        
       </div>
     </section>
 
     <aside class="about-sidebar glass-panel">
       <div class="sidebar-header">
         <h2>Outside the IDE</h2>
-        <p>I'm naturally a quiet person who enjoys a calm routine, Off the clock, I recharge on the 
-        badminton court, immersed in open-world games, and through continuous learning.</p>
+        <p>
+          I'm naturally a quiet person who enjoys a calm routine, Off the clock,
+          I recharge on the badminton court, immersed in open-world games, and
+          through continuous learning.
+        </p>
       </div>
 
       <div class="bento-grid">
         <div class="bento-card">
-          <div class="bento-icon">🔥</div>
-          <h3>Spicy Food</h3>
-          <p>Always on the hunt for bold, spicy flavors and trying out local fast food spots.</p>
+          <div class="bento-icon">🏎️</div>
+          <h3>Car Enthusiast</h3>
+          <p>
+            Big automotive fan — constantly deep-diving into car specs,
+            following car culture online, and spotting interesting builds in
+            real life.
+          </p>
         </div>
-        
+
         <div class="bento-card">
           <div class="bento-icon">🎮</div>
           <h3>Games</h3>
-          <p>Competing on the Rift in League of Legends, cruising Mexico in Forza Horizon 5, 
-          and exploring open worlds in RDR2.</p>
+          <p>
+            Competing on the Rift in League of Legends, cruising Mexico in Forza
+            Horizon 5, and exploring open worlds in RDR2.
+          </p>
         </div>
 
         <div class="bento-card">
           <div class="bento-icon">🏸</div>
           <h3>Badminton</h3>
-          <p>Active doubles player — hitting the court to blow off steam, stay sharp, 
-          and chase that post-match dopamine.</p>
+          <p>
+            Active doubles player — hitting the court to blow off steam, stay
+            sharp, and chase that post-match dopamine.
+          </p>
         </div>
 
         <div class="bento-card">
           <div class="bento-icon">🤖</div>
           <h3>AI & Productivity</h3>
-          <p>Big fan of modern AI tools like Claude — always curious about how technology 
-          can streamline work and boost everyday creativity.</p>
+          <p>
+            Big fan of modern AI tools like Claude — always curious about how
+            technology can streamline work and boost everyday creativity.
+          </p>
         </div>
       </div>
 
@@ -189,7 +211,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   }
 
   .timeline::before {
-    content: '';
+    content: "";
     position: absolute;
     top: 0;
     left: 11px;
@@ -202,7 +224,9 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     position: relative;
     margin-bottom: 3rem;
     padding: 2rem;
-    transition: transform 0.3s ease, border-color 0.3s ease;
+    transition:
+      transform 0.3s ease,
+      border-color 0.3s ease;
   }
 
   .timeline-item:hover {
@@ -463,29 +487,29 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
 <script>
   function setupTimelineSort() {
-    const btn = document.getElementById('sort-timeline-btn');
-    const container = document.getElementById('timeline-container');
-    
+    const btn = document.getElementById("sort-timeline-btn");
+    const container = document.getElementById("timeline-container");
+
     if (!btn || !container) return;
 
     // We only attach the event listener if it hasn't been attached yet
-    if (btn.hasAttribute('data-initialized')) return;
-    btn.setAttribute('data-initialized', 'true');
+    if (btn.hasAttribute("data-initialized")) return;
+    btn.setAttribute("data-initialized", "true");
 
-    btn.addEventListener('click', () => {
-      const isDesc = btn.getAttribute('data-order') === 'desc';
-      
+    btn.addEventListener("click", () => {
+      const isDesc = btn.getAttribute("data-order") === "desc";
+
       // Toggle order attribute
-      btn.setAttribute('data-order', isDesc ? 'asc' : 'desc');
-      
+      btn.setAttribute("data-order", isDesc ? "asc" : "desc");
+
       // Update button text
-      btn.innerHTML = isDesc ? '↑ Earliest first' : '↓ Latest first';
-      
+      btn.innerHTML = isDesc ? "↑ Earliest first" : "↓ Latest first";
+
       // Reverse elements
-      const items = Array.from(container.querySelectorAll('.timeline-item'));
-      items.reverse().forEach(item => container.appendChild(item));
+      const items = Array.from(container.querySelectorAll(".timeline-item"));
+      items.reverse().forEach((item) => container.appendChild(item));
     });
   }
 
-  document.addEventListener('astro:page-load', setupTimelineSort);
+  document.addEventListener("astro:page-load", setupTimelineSort);
 </script>
